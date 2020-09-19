@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading, items, enemies
 
-# test 5
-
 def index(request):
     if "gold" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
@@ -26,6 +24,8 @@ def process(request):
     return redirect('/')
 
 
+# not finished below
+
 # def counter():
 #     cps = 0
 #     speed = 0.01
@@ -38,12 +38,12 @@ def process(request):
 #         cps = 0
 #         time.sleep(1)
 
-def countdown(request):
-    while request > 0:
-        sys.stdout.write('\rDuration : {}s'.format(request))
-        request -= 1
-        sys.stdout.flush()
-        time.sleep(1)
+# def countdown(request):
+#     while request > 0:
+#         sys.stdout.write('\rDuration : {}s'.format(request))
+#         request -= 1
+#         sys.stdout.flush()
+#         time.sleep(1)
 
 # def randomdig(request):
 #     x = "treasure chest", "sack of gold"

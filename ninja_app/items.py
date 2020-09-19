@@ -8,6 +8,8 @@ class Item():
     def __str__(self):
         return "{}\n=====\n{}\nValue: {}\n".format(self.name, self.description, self.value)
 
+# damage and hp is placeholder
+
 class Robot(Item):
     def __init__(self, name, description, value, damage):
         self.damage = damage
