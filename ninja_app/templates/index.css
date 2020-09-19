@@ -1,0 +1,19 @@
+#wrapper {
+    width: 900px;
+    margin: 0px auto;
+    font-family: sans-serif;
+}
+
+#gold {
+    background-color: gold;
+    color: red;
+}
+
+.form {
+    display: inline-block;
+}
+.map {
+    display: inline-block;
+    padding: 750px;
+    margin: -730px auto;
+}
