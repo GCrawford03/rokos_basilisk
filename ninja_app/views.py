@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading
 
-# test 2
+# test 3
 
 def index(request):
     if "gold" not in request.session:
