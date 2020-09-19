@@ -50,6 +50,8 @@ def countdown(request):
 
 # print(random.choice(x))
 
+
+# text adventure input/output
 def game(request):
     if request.POST['input']== "yes":
         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
@@ -57,8 +59,8 @@ def game(request):
             request.session['prompt']= "You died."
     if request.POST['input']== "west":
         request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-        if request.POST['input']== "right":
-            request.session['prompt']= "You get lost. ('ok')"
+    if request.POST['input']== "east":
+        request.session['prompt']= "You get lost. 'ok'"
     if request.POST['input']== "attack":
         request.session['prompt']= "You died."
     if request.POST['input']== "run":
@@ -74,8 +76,64 @@ def reset(request):
     request.session.flush()
     return redirect('/')
 
+    # weapons/etc
 
-# text adventure
+class Item():
+    # the base class for all items/drones
+    def __init__(self, name, description, value):
+        self.name = name
+        self.description = description
+        self.value = value
+ 
+    def __str__(self):
+        return "{}\n=====\n{}\nValue: {}\n".format(self.name, self.description, self.value)
+
+class Robot(Item):
+    def __init__(self, name, description, value, damage):
+        self.damage = damage
+        super().__init__(name, description, value)
+ 
+    def __str__(self):
+        return "{}\n=====\n{}\nValue: {}\nDamage: {}".format(self.name, self.description, self.value, self.damage)
+
+class DroneOne(Robot):
+    def __init__(self, name, description, value, damage):
+        self.damage = damage
+        super().__init__(name, description, value, damage)
+ 
+    def __str__(self):
+        return "{}\n=====\n{}\nValue: {}\nDamage: {}".format(self.name, self.description, self.value, self.damage)
+
+class WayneBot(Robot):
+    def __init__(self):
+        super().__init__(name="Stick",
+                         description="That's a big stick.",
+                         value=0,
+                         damage=5)
+ 
+class DroneThree(Robot):
+    def __init__(self):
+        super().__init__(name="Drone Three",
+                         description="Add a description.",
+                         value=10,
+                         damage=10)                
+                        
+class Enemy:
+    def __init__(self, name, hp, damage):
+        self.name = name
+        self.hp = hp
+        self.damage = damage
+ 
+    def is_alive(self):
+        return self.hp > 0
+
+class Raider(Enemy):
+    def __init__(self):
+        super().__init__(name="Add a description.", hp=10, damage=2)
+
+
+
+# text adventure in terminal
 
 # answer = input ("Would you like to play? (yes/no) ")
 # if answer.lower().strip() == "yes":
