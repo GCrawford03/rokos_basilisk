@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-import random, time, sys, random, threading, items, enemies
+import random, time, sys, random, threading
 
 def index(request):
     if "gold" not in request.session:
@@ -38,12 +38,12 @@ def process(request):
 #         cps = 0
 #         time.sleep(1)
 
-# def countdown(request):
-#     while request > 0:
-#         sys.stdout.write('\rDuration : {}s'.format(request))
-#         request -= 1
-#         sys.stdout.flush()
-#         time.sleep(1)
+def countdown(request):
+    while request > 0:
+        sys.stdout.write('\rDuration : {}s'.format(request))
+        request -= 1
+        sys.stdout.flush()
+        time.sleep(1)
 
 # def randomdig(request):
 #     x = "treasure chest", "sack of gold"
@@ -75,6 +75,8 @@ def game(request):
 def reset(request):
     request.session.flush()
     return redirect('/')
+
+
 
 # text adventure in terminal
 
