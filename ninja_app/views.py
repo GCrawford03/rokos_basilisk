@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading
 
+# test 4
+
 def index(request):
     if "gold" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
