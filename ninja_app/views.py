@@ -63,6 +63,8 @@ def game(request):
         request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
     if request.POST['input']== "east":
         request.session['prompt']= "You get lost. 'ok'"
+    if request.POST['input']== "ok":
+        request.session['prompt']= "You stumble upon something"
     if request.POST['input']== "attack":
         request.session['prompt']= "You died."
     if request.POST['input']== "run":

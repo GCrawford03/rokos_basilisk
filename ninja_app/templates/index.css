@@ -11,6 +11,7 @@
 
 .form {
     display: inline-block;
+    padding-left: 0px;
 }
 .map {
     display: inline-block;

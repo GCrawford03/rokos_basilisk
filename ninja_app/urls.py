@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -6,5 +6,6 @@ urlpatterns = [
     path('process_money', views.process),
     path('process', views.game),
     path('reset', views.reset),
-    path('countdown', views.countdown)
+    path('countdown', views.countdown),
+    path('textgame', views.game)
 ]
