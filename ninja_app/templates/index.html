@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,10 @@
     <style>
         .container {
             padding-left: 0px;
-            margin-left: 500px;
+            margin-left: 505px;
             margin-right: 1000px;
-            margin-top: 5px;
-            background-color: rgb(209, 209, 209);
+            margin-top: -70px;
+            /* background-color: grey; */
         }
 
         #background {
@@ -40,7 +41,6 @@
 
         .form {
             display: inline-block;
-            background-color: rgb(209, 209, 209);
         }
         .textgame {
             display: inline-block;
@@ -56,21 +56,12 @@
             margin-top: -455px;
             margin-left: 910px;
         }
-        .bk {
-            display: inline-block;
-            background-color: blue;
-        }
     </style>
 </head>
     <div id="title">
         <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
     </div>
-    <div>
-        <a href="/textgame.html">Text Game</a>
-    </div>
 <body>
-<div id="bk">
-
     <div id="wrapper">
         <div id='gold'>
             <h2>Current Rations:</h2>
@@ -121,8 +112,42 @@
         </div>
     </div>
     <div>
+        
 
-    <!-- damage training for skill check encounters (rewrite in python) -->
+    <div class="textgame">
+            <!-- <title>textBoxes</title>
+            <script type="text/javascript">
+                function sayHi() {
+                    var txtName = document.getElementById("txtName");
+                    var txtOutput = document.getElementById("txtOutput");
+                    var name = txtName.value;
+                    txtOutput.value = "Hi there, " + name + "!"
+                }
+            </script>
+            <link rel="stylesheet" type="text/css" href="textBoxes.css" /> -->
+        </head>
+        
+        <body>
+            
+            <!-- <h1>Text Box Input and Output</h1>
+            <form action="">
+                  <fieldset>
+                  <label>Type your name: </label>
+                  <input type = " text" id="txtName" />
+            <input type="button" value="click me" onclick="sayHi()" />
+            <input type="text" id="txtOutput" />
+            </fieldset>
+            </form> -->
+            <form action="/process" method=POST>
+                <p>{{request.session.prompt}}</p>
+                {% csrf_token %}
+                <input type="text" name="input">
+                <input type="submit">
+            </form>
+            <a href="/reset">Reset Game</a>
+        </body>
+        </html>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -162,13 +187,11 @@
                         <button onclick="passiveClick()" class="btn btn-success">Training Multiplier(Training Cost: 100 rations, Generates 1 damage point every 10 seconds)</button>
                         <br />
                         <button onclick="stopper()" class="btn btn-lg btn-danger">STOP</button>
-                        <a href="/reset">Reset Game</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
     <script>
     var point = 1;
@@ -223,7 +246,7 @@
             currentPoint = currentPoint - 100;
             interval1 = setInterval('minorInc()', 1000);
             document.getElementById('system').innerHTML = '';
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>You bought Click Multiplier! Increment Damage is now " + incrementDamage + "</div>";
+            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>You bought Click Staff! Increment Damage is now " + incrementDamage + "</div>";
         }
         else
         {
@@ -238,8 +261,15 @@
     }
     </script>
 </div>
+    <div>
+        <img class="map" src="https://i.imgur.com/msJV1Kd.png" alt="Default Map" width="500" height="600">
+    </div>
+    
 </body>
+
 </html>
+
+
 
 
 <!-- <!DOCTYPE html>

@@ -54,6 +54,9 @@ def countdown(request):
 
 
 # text adventure input/output
+# game states. Starts at 0 and only allows certain inputs
+# game model, users have game saves (1:1, 1:Many)
+# 
 def game(request):
     if request.POST['input']== "yes":
         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
