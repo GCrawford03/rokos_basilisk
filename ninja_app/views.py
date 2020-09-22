@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 import random, time, sys, random, threading
 from .models import *
 from django.contrib import messages
-import bcrypt
 
 
 def homepage(request):
@@ -16,13 +15,9 @@ def register(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('/')
-        pw_hash = bcrypt.hashpw(
-            request.POST['password'].encode(),
-            bcrypt.gensalt()).decode()
         new_player = Player.objects.create(
             username=request.POST['username'],
-            email=request.POST['email'],
-            password=pw_hash)
+            password=request.POST['password'])
         request.session['player_name'] = new_player.username
         request.session['player_id'] = new_player.id
         return redirect('/game')
@@ -30,16 +25,10 @@ def register(request):
 
 def login(request):
     if request.method == 'POST':
-        errors = Player.objects.login_val(request.POST)
-        print(errors)
-        if len(errors):
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect('/')
-        logged_player = Player.objects.filter(email=request.POST['email'])
+        logged_player = Player.objects.filter(username=request.POST['username'])
         if len(logged_player):
             logged_player = logged_player[0]
-            if bcrypt.checkpw(request.POST['password'].encode(), logged_player.password.encode()):
+            if (request.POST['password'], logged_player.password):
                 request.session['player_name'] = logged_player.username
                 request.session['player_id'] = logged_player.id
                 return redirect('/game')
@@ -122,6 +111,7 @@ def game(request):
 def reset(request):
     request.session.flush()
     return redirect('/game')
+
 
 
 # text adventure

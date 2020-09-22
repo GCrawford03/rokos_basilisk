@@ -14,8 +14,6 @@
             <h2>Create a New Account</h2>
             <form action="/register" method="POST">
                 {% csrf_token %}
-                <label for="email">Email</label><br>
-                <input type="text" name='email'><br>
                 <label for="username">Username</label><br>
                 <input type="text" name='username'><br>
                 <label for="password">Password</label><br>
@@ -30,8 +28,8 @@
             <h5>login and pick up where you left off:</h5>
             <form action="/login" method='POST'>
                 {% csrf_token %}
-                <label for="email">Email</label><br>
-                <input type="text" name='email'><br>
+                <label for="username">Username</label><br>
+                <input type="text" name='username'><br>
                 <label for="password">Password</label><br>
                 <input type="text" name='password'>
                 <input type="submit" value='login' class='button'>
