@@ -1,5 +1,54 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading
+from .models import *
+from django.contrib import messages
+import bcrypt
+
+
+def homepage(request):
+    return render(request, 'homepage.html' )
+
+def register(request):
+    if request.method == 'POST':
+        errors = Player.objects.reg_val(request.POST)
+        print(errors)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/')
+        pw_hash = bcrypt.hashpw(
+            request.POST['password'].encode(),
+            bcrypt.gensalt()).decode()
+        new_player = Player.objects.create(
+            username=request.POST['username'],
+            email=request.POST['email'],
+            password=pw_hash)
+        request.session['player_name'] = new_player.username
+        request.session['player_id'] = new_player.id
+        return redirect('/game')
+    return redirect('/')
+
+def login(request):
+    if request.method == 'POST':
+        errors = Player.objects.login_val(request.POST)
+        print(errors)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/')
+        logged_player = Player.objects.filter(email=request.POST['email'])
+        if len(logged_player):
+            logged_player = logged_player[0]
+            if bcrypt.checkpw(request.POST['password'].encode(), logged_player.password.encode()):
+                request.session['player_name'] = logged_player.username
+                request.session['player_id'] = logged_player.id
+                return redirect('/game')
+    return redirect('/')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
 
 # test 4
 
@@ -23,7 +72,7 @@ def process(request):
     if 'cave' in request.POST:
         request.session['gold'] += int(random.random()* 10 + 30)
     print(request.session['gold'])
-    return redirect('/')
+    return redirect('/game')
 
 
 # not finished below
@@ -77,11 +126,11 @@ def game(request):
         request.session['prompt']= "placeholder text."
 
     print(request.POST)
-    return redirect('/')
+    return redirect('/game')
 
 def reset(request):
     request.session.flush()
-    return redirect('/')
+    return redirect('/game')
 
 
 
