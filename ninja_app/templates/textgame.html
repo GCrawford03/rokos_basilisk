@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Game</title>
+</head>
+<body>
+    <div>
+        <img class="map" src="https://i.imgur.com/msJV1Kd.png" alt="Default Map" width="500" height="600">
+    </div>
+    <form action="/process" method=POST>
+        <p>{{request.session.prompt}}</p>
+        {% csrf_token %}
+        <input type="text" name="input">
+        <input type="submit">
+    </form>
+    <!-- reset game (flushes) -->
+    <a href="/reset">Reset Game</a>
+</body>
+</html>
