@@ -1,5 +1,48 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading
+from .models import *
+from .textgame import *
+from django.contrib import messages
+
+# import bcrypt
+ 
+
+def homepage(request):
+    return render(request, 'homepage.html' )
+
+def register(request):
+    if request.method == 'POST':
+        errors = Player.objects.reg_val(request.POST)
+        print(errors)
+        if len(errors):
+            for key, value in errors.items():
+                messages.error(request, value)
+            return redirect('/')
+        new_player = Player.objects.create(
+            username=request.POST['username'],
+            password=request.POST['password'])
+        request.session['player_name'] = new_player.username
+        request.session['player_id'] = new_player.id
+        request.session['current_place'] = 'woods' 
+        return redirect('/game')
+    return redirect('/')
+
+def login(request):
+    if request.method == 'POST':
+        logged_player = Player.objects.filter(username=request.POST['username'])
+        if len(logged_player):
+            logged_player = logged_player[0]
+            if (request.POST['password'], logged_player.password):
+                request.session['player_name'] = logged_player.username
+                request.session['player_id'] = logged_player.id
+                request.session['current_place'] = 'woods'
+                return redirect('/game')
+    return redirect('/')
+
+def logout(request):
+    request.session.flush()
+    return redirect('/')
+
 
 #START SCREEN 
 
@@ -7,7 +50,10 @@ def index(request):
     if "gold" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
         request.session['gold'] = 0
-    return render(request, "index.html")
+    context={
+        'place': locations[request.session['current_place']]
+    }
+    return render(request, "index.html",context)
 
 
 #PROMPTS
@@ -25,7 +71,7 @@ def process(request):
     if 'cave' in request.POST:
         request.session['gold'] += int(random.random()* 10 + 30)
     print(request.session['gold'])
-    return redirect('/')
+    return redirect('/game')
 
 
 # not finished below
@@ -58,7 +104,7 @@ def countdown(request):
 # text adventure input/output
 # game states. Starts at 0 and only allows certain inputs
 # game model, users have game saves (1:1, 1:Many)
-# 
+
 def game(request):
     if request.POST['input']== "yes":
         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
@@ -79,7 +125,7 @@ def game(request):
         request.session['prompt']= "placeholder text."
 
     print(request.POST)
-    return redirect('/')
+    return redirect('/game')
 
 #AUTOMATIC RATIONS COUNTER/RATIONS STAT
 
@@ -117,84 +163,8 @@ def train(request, input, id){
 #END GAME BUTTON
 def reset(request):
     request.session.flush()
-    return redirect('/')
+    return redirect('/game')
 
-
-
-
-
-
-
-
-
-
-# def process(request):
-#     print(request.POST)
-#     if 'house' in request.POST:
-#         request.session['gold'] += int(random.random() * 2 + 7)
-#     if 'casino' in request.POST:
-#         if int(random.random() * 10) > 5:
-#             request.session['gold'] += int(random.random()*50)
-#         else:
-#             request.session['gold'] -= int(random.random()*50)
-#     if 'farm' in request.POST:
-#         request.session['gold'] += int(random.random() * 5 + 15)
-#     if 'cave' in request.POST:
-#         request.session['gold'] += int(random.random()* 10 + 30)
-#     print(request.session['gold'])
-#     return redirect('/')
-
-#AUTOMATIC RATIONS COUNTER/RATION STAT
-
-
-# def counter():
-#     cps = 0
-#     speed = 0.01
-
-#     while True:
-#         """Prints the amount of Clicks per Second and resets the counter every second."""
-
-#         global cps
-#         print("Clicks Per Second {}  ".format(cps), end = "\r"
-#         cps = 0
-#         time.sleep(1)
-
-
-# def countdown(request):
-#     while request > 0:
-#         sys.stdout.write('\rDuration : {}s'.format(request))
-#         request -= 1
-#         sys.stdout.flush()
-#         time.sleep(1)
-
-# def randomdig(request):
-#     x = "treasure chest", "sack of gold"
-
-# print(random.choice(x))
-
-# def game(request):
-#     if request.POST['input']== "yes":
-#         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
-#         if request.POST['input']== "no":
-#             request.session['prompt']= "You died."
-#     if request.POST['input']== "west":
-#         request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-#         if request.POST['input']== "right":
-#             request.session['prompt']= "You get lost. ('ok')"
-#     if request.POST['input']== "attack":
-#         request.session['prompt']= "You died."
-#     if request.POST['input']== "run":
-#         request.session['prompt']= "You run away and find food ('continue')"
-#         request.session['gold'] += int(random.random() * 50 + 200)
-#     if request.POST['input']== "continue":
-#         request.session['prompt']= "placeholder text."
-
-#     print(request.POST)
-#     return redirect('/')
-
-# def reset(request):
-#     request.session.flush()
-#     return redirect('/')
 
 
 # text adventure
