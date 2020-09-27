@@ -11,6 +11,54 @@ def index(request):
 
 
 #PROMPTS
+def process(request):
+    print(request.POST)
+    if 'house' in request.POST:
+        request.session['gold'] += int(random.random() * 2 + 7)
+    if 'casino' in request.POST:
+        if int(random.random() * 10) > 5:
+            request.session['gold'] += int(random.random()*50)
+        else:
+            request.session['gold'] -= int(random.random()*50)
+    if 'farm' in request.POST:
+        request.session['gold'] += int(random.random() * 5 + 15)
+    if 'cave' in request.POST:
+        request.session['gold'] += int(random.random()* 10 + 30)
+    print(request.session['gold'])
+    return redirect('/')
+
+
+# not finished below
+
+# def counter():
+#     cps = 0
+#     speed = 0.01
+
+#     while True:
+#         """Prints the amount of Clicks per Second and resets the counter every second."""
+
+#         global cps
+#         print("Clicks Per Second {}  ".format(cps), end = "\r"
+#         cps = 0
+#         time.sleep(1)
+
+def countdown(request):
+    while request > 0:
+        sys.stdout.write('\rDuration : {}s'.format(request))
+        request -= 1
+        sys.stdout.flush()
+        time.sleep(1)
+
+# def randomdig(request):
+#     x = "treasure chest", "sack of gold"
+
+# print(random.choice(x))
+
+
+# text adventure input/output
+# game states. Starts at 0 and only allows certain inputs
+# game model, users have game saves (1:1, 1:Many)
+# 
 def game(request):
     if request.POST['input']== "yes":
         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
@@ -18,8 +66,10 @@ def game(request):
             request.session['prompt']= "You died."
     if request.POST['input']== "west":
         request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-        if request.POST['input']== "right":
-            request.session['prompt']= "You get lost. ('ok')"
+    if request.POST['input']== "east":
+        request.session['prompt']= "You get lost. 'ok'"
+    if request.POST['input']== "ok":
+        request.session['prompt']= "You stumble upon something"
     if request.POST['input']== "attack":
         request.session['prompt']= "You died."
     if request.POST['input']== "run":
@@ -148,6 +198,7 @@ def reset(request):
 
 
 # text adventure
+# text adventure in terminal
 
 # answer = input ("Would you like to play? (yes/no) ")
 # if answer.lower().strip() == "yes":
