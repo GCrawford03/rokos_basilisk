@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import random, time, sys, random, threading
 from .models import *
+from .textgame import *
 from django.contrib import messages
 
 
@@ -20,6 +21,7 @@ def register(request):
             password=request.POST['password'])
         request.session['player_name'] = new_player.username
         request.session['player_id'] = new_player.id
+        request.session['current_place'] = 'woods' 
         return redirect('/game')
     return redirect('/')
 
@@ -31,6 +33,7 @@ def login(request):
             if (request.POST['password'], logged_player.password):
                 request.session['player_name'] = logged_player.username
                 request.session['player_id'] = logged_player.id
+                request.session['current_place'] = 'woods'
                 return redirect('/game')
     return redirect('/')
 
@@ -78,8 +81,11 @@ def war(request):
 def index(request):
     if "rations" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
-        request.session['rations'] = 0
-    return render(request, "index.html")
+        request.session['gold'] = 0
+    context={
+        'place': locations[request.session['current_place']]
+    }
+    return render(request, "index.html",context)
 
 def process(request):
     print(request.POST)
