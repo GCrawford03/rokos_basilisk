@@ -7,6 +7,7 @@ urlpatterns = [
     path('login', views.login),
     path('logout', views.logout),
     path('game', views.index),
+    path('get_food', views.get_food),
     path('process_money', views.process),
     path('process', views.game),
     path('reset', views.reset),

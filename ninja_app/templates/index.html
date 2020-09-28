@@ -3,308 +3,69 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ninja Gold</title>
-    <style>
-        .container {
-            padding-left: 0px;
-            margin-left: 505px;
-            margin-right: 1000px;
-            margin-top: -70px;
-            /* background-color: grey; */
-        }
-
-        #background {
-            margin-left: 455px;
-            margin-right: 455px;
-            background-color: grey;
-        }
-
-        #title {
-            margin-left: 455px;
-            margin-right: 455px;
-            color: white;
-            background-color: grey;
-            font-family: sans-serif;
-        }
-
-        #wrapper {
-            width: 900px;
-            margin: 0px auto;
-            font-family: sans-serif;
-        }
-
-        #gold {
-            background-color: rgb(0, 0, 0);
-            color: red;
-        }
-
-        .form {
-            display: inline-block;
-        }
-        .textgame {
-            display: inline-block;
-            padding: 75px;
-            /* margin: 60px auto; */
-            margin-left: 445px;
-            /* background-color: black;
-            color: white; */
-        }
-        .map {
-            display: inline-block;
-            /* padding-left: 490px; */
-            margin-top: -455px;
-            margin-left: 910px;
-        }    
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'style/index.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-    <div id="title">
-        <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
-    </div>
-<body>
-    <div id="wrapper">
-        <div id='gold'>
-            <h2>Current Rations:</h2>
-            <p>{{request.session.gold}}</p>
+
+<body class="container-fluid">
+
+    <!-- Header Navigation-->
+    <nav class="navbar navbar-exapnd-md navbar-dark sticky-top">
+        <div class="container-fluid">
+            <div class="title col-md-auto">
+                <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
+            </div>
+            <a class="btn btn-outline-secondary" href="/logout" role="button">Exit</a>
         </div>
-
-        <div id='forms'>
-
-            <div class='form' id='count'>
-                <h3>Manual Drone</h3>
-                <p>Earns 10-20 rations</p>
-                <form action="/process_money" method=POST>
-                    {% csrf_token %}
-                    <input type="hidden" name="farm">
-                    <input type="submit" value="Find Resources">
-                </form>
-            </div>
-
-            <div class='form'>
-                <h3>Manual Drone 2</h3>
-                <p>Earns 5-10 rations</p>
-                <form action="/process_money" method=POST>
-                    {% csrf_token %}
-                    <input type="hidden" name="cave">
-                    <input type="submit" value="Find Resources">
-                </form>
-            </div>
-
-            <div class='form'>
-                <h3>Manual Drone 3</h3>
-                <p>Earns 2-5 rations</p>
-                <form action="/process_money" method=POST>
-                    {% csrf_token %}
-                    <input type="hidden" name="house">
-                    <input type="submit" value="Find Resources">
-                    <div id="myTimer"></div>
-                    <!-- <button type="button" id="myBtn" class="btnDisable" disabled onclick="alert('Finally!')">Please wait...</button> -->
-                </form>
-            </div>
-
-            <div class='form'>
-                <h3>Risk Resources</h3>
-                <p>Earn/Lose 0-50 rations</p>
-                <form action="/process_money" method=POST>
-                    {% csrf_token %}
-                    <input type="hidden" name="casino">
-                    <input type="submit" value="Find Resources">
-                </form>
-            </div>
         </div>
-    </div>
+    </nav>
+
+    <!-- game box -->
+    <div1 class="box1 my-2"></div1>
+    <div2 class="box1 my-2"></div2>
     <div>
-        
-
-    <div class="textgame">
-            <!-- <title>textBoxes</title>
-            <script type="text/javascript">
-                function sayHi() {
-                    var txtName = document.getElementById("txtName");
-                    var txtOutput = document.getElementById("txtOutput");
-                    var name = txtName.value;
-                    txtOutput.value = "Hi there, " + name + "!"
-                }
-            </script>
-            <link rel="stylesheet" type="text/css" href="textBoxes.css" /> -->
-        </head>
-        
-        <body>
-            
-            <!-- <h1>Text Box Input and Output</h1>
-            <form action="">
-                  <fieldset>
-                  <label>Type your name: </label>
-                  <input type = " text" id="txtName" />
-            <input type="button" value="click me" onclick="sayHi()" />
-            <input type="text" id="txtOutput" />
-            </fieldset>
-            </form> -->
-            <form action="/process" method=POST>
-                <p>{{request.session.prompt}}</p>
+        <ul id='rationcount' class="inventory list-inline">
+            <li class="list-inline-item"> Resources: {{ request.session.rations }}</li>
+            <li class="list-inline-item"> Energy: {{ request.session.stamina }}</li>
+        </ul>
+        <div class='form' id='count'>
+            <h3>Get Rations</h3>
+            <p>Automatically increase rations</p>
+            <form action="/get_food" method='POST'>
                 {% csrf_token %}
-                <input type="text" name="input">
-                <input type="submit">
+                <input type="hidden" name="rations">
+                <input type="submit" value="Get Resources">
             </form>
-            <a href="/reset">Reset Game</a>
-        </body>
-        </html>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                    <h1>Training:</h1>
-                    <p class="lead"></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="system"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <p>Game Stats:</p>
-            </div>
-            <div class="col-md-6">
-                <p></p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <p>Current click damage = <span class="badge" id="output1"></span></p>
-                        <p>Current increment damage = <span class="badge" id="output2"></span></p>
-                    </div>
-                </div>
-                <p>Current Damages Clicked: <span class="badge" id="dps"></span></p>
-                <button onclick="increaseDPS()" class="btn btn-lg btn-info">Click here</button>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <button onclick="powerClick()" class="btn btn-success">Increase Damage (Cost: 20 rations, increase by 1)</button>
-                        <br />
-                        <button onclick="passiveClick()" class="btn btn-success">Training Multiplier(Training Cost: 100 rations, Generates 1 damage point every 10 seconds)</button>
-                        <br />
-                        <button onclick="stopper()" class="btn btn-lg btn-danger">STOP</button>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
-
-    <script>
-    var point = 1;
-    var showClickDmg = document.getElementById('output1');
-    showClickDmg.innerHTML = point;
-    
-    var incrementDamage = 0;
-    var incDmg = document.getElementById('output2');
-    incDmg.innerHTML = incrementDamage;
-    
-    var currentPoint = 0;
-    var dpsOutput = document.getElementById('dps');
-    dpsOutput.innerHTML = currentPoint;
-    
-    function increaseDPS()
-    {
-        currentPoint = currentPoint + point + incrementDamage;
-        dpsOutput.innerHTML = currentPoint;
-    }
-    
-    function powerClick()
-    {
-        if(currentPoint >= 20)
-        {
-            currentPoint = currentPoint - 20;
-            point = point + 1;
-            showClickDmg.innerHTML = point;
-            document.getElementById('system').innerHTML = "";
-            document.getElementById('system').innerHTML = "<div class='alert alert-success'>Bought Power Click! Now it's " + point + "!</div>";
-        }
-        else
-        {
-            var remainingPoints = 20 - currentPoint;
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>Insufficient points! You need " + remainingPoints + " more!</div>";
-        }
-    }
-    
-    var interval1;
-    
-    function minorInc()
-    {
-        currentPoint = currentPoint + incrementDamage;
-        dpsOutput.innerHTML = currentPoint;
-    }
-    
-    function passiveClick()
-    {
-        if (currentPoint >= 100)
-        {
-            incrementDamage++;
-            incDmg.innerHTML = incrementDamage;
-            currentPoint = currentPoint - 100;
-            interval1 = setInterval('minorInc()', 1000);
-            document.getElementById('system').innerHTML = '';
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>You bought Click Staff! Increment Damage is now " + incrementDamage + "</div>";
-        }
-        else
-        {
-            var remainingPoints = 100 - currentPoint;
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>Insufficient points for Click Staff! You need " + remainingPoints + " more!</div>"; //Standard Error
-        }
-    }
-    
-    function stopper()
-    {
-        clearInterval(interval1);
-    }
-    </script>
-</div>
-    <div>
-        <img class="map" src="https://i.imgur.com/msJV1Kd.png" alt="Default Map" width="500" height="600">
+    <div class="">
+        <textarea class="log" name="logger" rows="4" cols="50"></textarea>
+        <img src="ninja_app/images/map.jpeg" class="map rounded float-right" alt="map.jpeg">
     </div>
-    
 </body>
 
+
+<script type='text/javascript'>
+        $(document).on('submit', '#count', function (e) {
+            e.preventDefault();
+
+            $.ajax({
+                type: 'POST',
+                url: '/get_food',
+                data: {
+                    rations:$('#rations').val(),
+                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                },
+                success:function(response){
+                    document.getElementById('rationcount').innerHTML = response
+                    console.log(response)
+                }
+            });
+        });
+</script>
+
 </html>
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang = "en-US">
- <head>
- <meta charset = "UTF-8">
- <title>textBoxes.html</title>
- <script type = "text/javascript">
-  // from textBoxes.html
-  function sayHi(){
-  var txtName = document.getElementById("txtName");
-  var txtOutput = document.getElementById("txtOutput");
-  var name = txtName.value;
-  txtOutput.value = "Hi there, " + name + "!"
-  } // end sayHi
- </script>
- <link rel = "stylesheet"
-   type = "text/css"
-   href = "textBoxes.css" />
- </head>
- <body>
- <h1>Text Box Input and Output</h1>
- <form action = ">
-  <fieldset>
-  <label>Type your name: </label>
-  <input type = "text"
-    id = "txtName" />
-  <input type = "button"
-    value = "click me"
-    onclick = "sayHi()"/>
-  <input type = "text"
-    id = "txtOutput" />
-  </fieldset>
- </form>
- </body>
-</html> -->

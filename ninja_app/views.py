@@ -2,12 +2,7 @@ from django.shortcuts import render, redirect
 import random, time, sys, random, threading
 from .models import *
 from django.contrib import messages
-<<<<<<< HEAD
 
-=======
-import bcrypt
- 
->>>>>>> efe2d7a9f7d73d00cf15d2c1106de3777b7d8d20
 
 def homepage(request):
     return render(request, 'homepage.html' )
@@ -43,13 +38,47 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
+def get_food(request):
+    if request.method == 'POST':
+        if request.session['rations'] < 100:
+            request.session['rations'] += 5
+    return render(request, 'ration.html')       
+
+def war(request):
+    if request.session['stamina'] > 30:
+        request.session['stamina'] -= 30
+        def fight():
+            win = 0
+            lose = 0
+            battle = 0
+            battleresult = random.randint(1, 2)
+            while True:
+                battle += 1
+
+                if battle > 10:
+                    break
+                if battleresult == 1:
+                    win += 1
+                elif battleresult == 2:
+                    lose += 1
+                battleresult = random.randint(1, 2)
+            print(win)
+            print(lose)
+        fight()
+    else:
+        print('You do not have enough stamina for that!')
+
+
+# i'm pretty sure I'm only using methods above this
+
+
 
 # test 4
 
 def index(request):
-    if "gold" not in request.session:
+    if "rations" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
-        request.session['gold'] = 0
+        request.session['rations'] = 0
     return render(request, "index.html")
 
 def process(request):
@@ -71,6 +100,14 @@ def process(request):
 
 # not finished below
 
+#Disregard this
+#def get_food(request, username:
+    #one_player = Player.objects.get(id=id)
+    #if request.method == 'POST':
+        #one_player.rations = request.POST['rations']
+        #one_player.save()
+        #return redirect('/game')
+
 # def counter():
 #     cps = 0
 #     speed = 0.01
@@ -83,12 +120,12 @@ def process(request):
 #         cps = 0
 #         time.sleep(1)
 
-def countdown(request):
-    while request > 0:
-        sys.stdout.write('\rDuration : {}s'.format(request))
-        request -= 1
-        sys.stdout.flush()
-        time.sleep(1)
+#def countdown(request):
+#    while request > 0:
+#        sys.stdout.write('\rDuration : {}s'.format(request))
+#        request -= 1
+#        sys.stdout.flush()
+#        time.sleep(1)
 
 # def randomdig(request):
 #     x = "treasure chest", "sack of gold"
@@ -100,39 +137,35 @@ def countdown(request):
 # game states. Starts at 0 and only allows certain inputs
 # game model, users have game saves (1:1, 1:Many)
 # 
-def game(request):
-    if request.POST['input']== "yes":
-        request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
-        if request.POST['input']== "no":
-            request.session['prompt']= "You died."
-    if request.POST['input']== "west":
-        request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-    if request.POST['input']== "east":
-        request.session['prompt']= "You get lost. 'ok'"
-    if request.POST['input']== "ok":
-        request.session['prompt']= "You stumble upon something"
-    if request.POST['input']== "attack":
-        request.session['prompt']= "You died."
-    if request.POST['input']== "run":
-        request.session['prompt']= "You run away and find food ('continue')"
-        request.session['gold'] += int(random.random() * 50 + 200)
-    if request.POST['input']== "continue":
-        request.session['prompt']= "placeholder text."
+#def game(request):
+#    if request.POST['input']== "yes":
+#        request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
+#        if request.POST['input']== "no":
+#            request.session['prompt']= "You died."
+#    if request.POST['input']== "west":
+#        request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
+#    if request.POST['input']== "east":#
+#        request.session['prompt']= "You get lost. 'ok'"
+#    if request.POST['input']== "ok":
+#        request.session['prompt']= "You stumble upon something"
+#    if request.POST['input']== "attack":
+#        request.session['prompt']= "You died."
+#    if request.POST['input']== "run":
+#        request.session['prompt']= "You run away and find food ('continue')"
+#        request.session['gold'] += int(random.random() * 50 + 200)
+#    if request.POST['input']== "continue":
+ #       request.session['prompt']= "placeholder text."
+#
+#    print(request.POST)
+#    return redirect('/game')
 
-    print(request.POST)
-    return redirect('/game')
-
-def reset(request):
-    request.session.flush()
-    return redirect('/game')
+#def reset(request):
+    #request.session.flush()
+    #return redirect('/game')
 
 
 
-<<<<<<< HEAD
 # text adventure
-=======
-# text adventure in terminal
->>>>>>> efe2d7a9f7d73d00cf15d2c1106de3777b7d8d20
 
 # answer = input ("Would you like to play? (yes/no) ")
 # if answer.lower().strip() == "yes":
