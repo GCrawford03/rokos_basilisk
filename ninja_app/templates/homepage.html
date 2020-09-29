@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Welcome To Roko's Basilisk</h1>
+        <div class="reg">
+            <h2>Create a New Account</h2>
+            <form action="/register" method="POST">
+                {% csrf_token %}
+                <label for="username">Username</label><br>
+                <input type="text" name='username'><br>
+                <label for="password">Password</label><br>
+                <input type="text" name='password'><br>
+                <label for="confirm_password">Confirm Password</label><br>
+                <input type="text" name='confirm_password'><br>
+                <input type="submit" value="Register" class='button'>
+            </form>
+        </div>
+        <div class="log">
+            <h2>Already Have an Account?</h2>
+            <h5>login and pick up where you left off:</h5>
+            <form action="/login" method='POST'>
+                {% csrf_token %}
+                <label for="username">Username</label><br>
+                <input type="text" name='username'><br>
+                <label for="password">Password</label><br>
+                <input type="text" name='password'>
+                <input type="submit" value='login' class='button'>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
