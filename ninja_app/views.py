@@ -45,7 +45,32 @@ def get_food(request):
     if request.method == 'POST':
         if request.session['rations'] < 100:
             request.session['rations'] += 5
-    return render(request, 'ration.html')       
+    return render(request, 'ration.html')   
+
+#def train(request):
+#    if request.method == 'POST':
+#        while (request.session['stamina'] < 30):
+
+
+#def train(request, input, id){
+ #   stamina_total = 0;
+    
+#    while (stamina_total < 30 and input = "train"){
+
+ #       request.session['rations_total'] -= 10
+ #       request.session['stamina_total'] += 1
+        
+ #       if (stamina_total == 30) {
+
+  #          request.session['prompt'] = "Placeholder : Time to go to wor! Type in 'wartime' to go to travel to the battlegraounds."  
+  #      }
+  #      else{
+            
+  #          request.session['prompt'] = " Placeholder: Keep training to become a mega superpower! Type 'train' to gain  more stamina."
+  #      }
+  #  }
+  #  return redirect('/game/main')
+#}    
 
 def war(request):
     if request.session['stamina'] > 30:
@@ -79,9 +104,10 @@ def war(request):
 # test 4
 
 def index(request):
-    if "rations" not in request.session:
+    if "rations" and "stamina" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
-        request.session['gold'] = 0
+        request.session['rations'] = 0
+        request.session['stamina'] = 0
     context={
         'place': locations[request.session['current_place']]
     }
@@ -143,31 +169,37 @@ def process(request):
 # game states. Starts at 0 and only allows certain inputs
 # game model, users have game saves (1:1, 1:Many)
 # 
-#def game(request):
-#    if request.POST['input']== "yes":
-#        request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
-#        if request.POST['input']== "no":
-#            request.session['prompt']= "You died."
-#    if request.POST['input']== "west":
-#        request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-#    if request.POST['input']== "east":#
-#        request.session['prompt']= "You get lost. 'ok'"
-#    if request.POST['input']== "ok":
-#        request.session['prompt']= "You stumble upon something"
-#    if request.POST['input']== "attack":
-#        request.session['prompt']= "You died."
-#    if request.POST['input']== "run":
-#        request.session['prompt']= "You run away and find food ('continue')"
-#        request.session['gold'] += int(random.random() * 50 + 200)
-#    if request.POST['input']== "continue":
- #       request.session['prompt']= "placeholder text."
-#
-#    print(request.POST)
-#    return redirect('/game')
+def game(request):
+    if request.POST['input']== "yes":
+        request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
+        if request.POST['input']== "no":
+            request.session['prompt']= "You died."
+    if request.POST['input']== "west":
+        request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
+    if request.POST['input']== "east":#
+        request.session['prompt']= "You get lost. 'ok'"
+    if request.POST['input']== "ok":
+        request.session['prompt']= "You stumble upon something"
+    if request.POST['input']== "attack":
+        request.session['prompt']= "You died."
+    if request.POST['input']== "run":
+        request.session['prompt']= "You run away and find food ('continue')"
+        request.session['gold'] += int(random.random() * 50 + 200)
+    if request.POST['input']== "continue":
+        request.session['prompt']= "placeholder text."
 
-#def reset(request):
-    #request.session.flush()
-    #return redirect('/game')
+    print(request.POST)
+    return redirect('/game')
+
+def reset(request):
+    request.session.flush()
+    return redirect('/game')
+
+#remove after testing
+def clear(request):
+    if request.session['rations'] == 100:
+        request.session['rations'] -= 100
+    return redirect('/game')
 
 
 
