@@ -41,15 +41,18 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-def get_food(request):
+def get_rations(request):
     if request.method == 'POST':
         if request.session['rations'] < 100:
             request.session['rations'] += 5
     return render(request, 'ration.html')   
 
-#def train(request):
-#    if request.method == 'POST':
-#        while (request.session['stamina'] < 30):
+def train(request):
+    if request.method == 'POST':
+        if request.session['rations'] >= 10:
+            request.session['rations'] -= 10
+            request.session['stamina'] += 1
+    return render(request, 'ration.html')
 
 
 #def train(request, input, id){
