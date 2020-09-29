@@ -39,9 +39,9 @@ def login(request):
                 return redirect('/game')
     return redirect('/')
 
-def logout(request):
-    request.session.flush()
-    return redirect('/')
+# def logout(request):
+#     request.session.flush()
+#     return redirect('/')
 
 
 #START SCREEN 
