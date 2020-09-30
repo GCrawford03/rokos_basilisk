@@ -101,3 +101,14 @@ div2{
     75%{background-color:black;left:95%; top:5%;} 
     100%{background-color:white; left:95%; top:90%;}
 }
+
+.user{
+    margin:0;
+    position:absolute;
+    top:10%;
+    left:50%;
+    margin-right:-50%;
+    transform:translate(-50%,100%);
+    color:black;
+    font-size:1em;
+}
