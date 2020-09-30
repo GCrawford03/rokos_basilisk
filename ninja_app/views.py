@@ -41,15 +41,28 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
+<<<<<<< HEAD
 def get_food(request):
+=======
+def get_rations(request):
+>>>>>>> 3829d871a64afcc7d51f79889970e5128b0099de
     if request.method == 'POST':
         if request.session['rations'] < 100:
             request.session['rations'] += 5
     return render(request, 'ration.html')   
 
+<<<<<<< HEAD
 #def train(request):
 #    if request.method == 'POST':
 #        while (request.session['stamina'] < 30):
+=======
+def train(request):
+    if request.method == 'POST':
+        if request.session['rations'] >= 10:
+            request.session['rations'] -= 10
+            request.session['stamina'] += 1
+    return render(request, 'ration.html')
+>>>>>>> 3829d871a64afcc7d51f79889970e5128b0099de
 
 
 #def train(request, input, id){
@@ -176,7 +189,7 @@ def game(request):
             request.session['prompt']= "You died."
     if request.POST['input']== "west":
         request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-    if request.POST['input']== "east":
+    if request.POST['input']== "east":#
         request.session['prompt']= "You get lost. 'ok'"
     if request.POST['input']== "ok":
         request.session['prompt']= "You stumble upon something"
