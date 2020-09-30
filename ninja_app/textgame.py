@@ -14,8 +14,8 @@ class Location:
         else:
             self.linkedLocations[direction] = destination
 
-locations = { 'woods':Location('The woods', 'You are in the woods'),
-              'lake':Location('The lake', 'You are by the lake') }
+locations = { 'woods':Location('The woods.', 'You are in the woods'),
+              'lake':Location('The lake.', 'You are by the lake') }
             #   other directions
 
 locations['woods'].addLink('north','lake')
