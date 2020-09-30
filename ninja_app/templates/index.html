@@ -18,12 +18,12 @@
         <div class="container-fluid">
             <div class="title col-md-auto">
                 <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
+                <h2>Welcome, {{request.session.player_name}}</h2>
             </div>
             <a class="btn btn-outline-secondary" href="/logout" role="button">Exit</a>
         </div>
         </div>
     </nav>
-
     <!-- game box -->
     <div1 class="box1 my-2"></div1>
     <div2 class="box1 my-2"></div2>
@@ -50,10 +50,17 @@
                 <input type="submit" value="Train">
             </form>
         </div>
-            <!--remove after testing-->
-            <a class = "btn btn-outline-secondary" href="/clear_rations" role='button'>Clear Rations</a>
     </div>
     <div class="">
+        <div id="textgame">
+        <form action="/process" method = 'POST'>
+        {% csrf_token %}
+            <p>{{request.session.prompt}}</p>
+            <input type="text" name="input">
+            <input type="submit">
+        </form>
+        <a href="/reset" class="reset">Reset Text Game</a>
+        </div>
         <textarea class="log" name="logger" rows="4" cols="50"></textarea>
         <img src="map.jpeg" class="map rounded float-right" alt="map.jpeg">
     </div>
