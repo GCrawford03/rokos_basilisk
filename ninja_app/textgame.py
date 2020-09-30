@@ -28,6 +28,10 @@ locations['lake'].addLink('south','woods')
 currentLocation = locations['woods']
 # store in session
 
+
+
+
+
 # while True:
 #     # print(currentLocation.description)
 #     for linkDirection,linkedLocation in currentLocation.linkedLocations.items():

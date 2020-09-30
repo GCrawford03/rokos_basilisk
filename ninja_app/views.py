@@ -4,8 +4,6 @@ from .models import *
 from .textgame import *
 from django.contrib import messages
 
-# import bcrypt
- 
 
 def homepage(request):
     return render(request, 'homepage.html' )
@@ -43,10 +41,73 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
+def get_food(request):
+    if request.method == 'POST':
+        if request.session['rations'] < 100:
+            request.session['rations'] += 5
+    return render(request, 'ration.html')   
+
+#def train(request):
+#    if request.method == 'POST':
+#        while (request.session['stamina'] < 30):
+
+
+#def train(request, input, id){
+ #   stamina_total = 0;
+    
+#    while (stamina_total < 30 and input = "train"){
+
+ #       request.session['rations_total'] -= 10
+ #       request.session['stamina_total'] += 1
+        
+ #       if (stamina_total == 30) {
+
+  #          request.session['prompt'] = "Placeholder : Time to go to wor! Type in 'wartime' to go to travel to the battlegraounds."  
+  #      }
+  #      else{
+            
+  #          request.session['prompt'] = " Placeholder: Keep training to become a mega superpower! Type 'train' to gain  more stamina."
+  #      }
+  #  }
+  #  return redirect('/game/main')
+#}    
+
+def war(request):
+    if request.session['stamina'] > 30:
+        request.session['stamina'] -= 30
+        def fight():
+            win = 0
+            lose = 0
+            battle = 0
+            battleresult = random.randint(1, 2)
+            while True:
+                battle += 1
+
+                if battle > 10:
+                    break
+                if battleresult == 1:
+                    win += 1
+                elif battleresult == 2:
+                    lose += 1
+                battleresult = random.randint(1, 2)
+            print(win)
+            print(lose)
+        fight()
+    else:
+        print('You do not have enough stamina for that!')
+
+
+# i'm pretty sure I'm only using methods above this
+
+
+
+# test 4
+
 def index(request):
-    if "gold" not in request.session:
+    if "rations" and "stamina" not in request.session:
         request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
-        request.session['gold'] = 0
+        request.session['rations'] = 0
+        request.session['stamina'] = 0
     context={
         'place': locations[request.session['current_place']]
     }
@@ -71,6 +132,14 @@ def process(request):
 
 # not finished below
 
+#Disregard this
+#def get_food(request, username:
+    #one_player = Player.objects.get(id=id)
+    #if request.method == 'POST':
+        #one_player.rations = request.POST['rations']
+        #one_player.save()
+        #return redirect('/game')
+
 # def counter():
 #     cps = 0
 #     speed = 0.01
@@ -84,11 +153,11 @@ def process(request):
 #         time.sleep(1)
 
 def countdown(request):
-    while request > 0:
-        sys.stdout.write('\rDuration : {}s'.format(request))
-        request -= 1
-        sys.stdout.flush()
-        time.sleep(1)
+   while request > 0:
+       sys.stdout.write('\rDuration : {}s'.format(request))
+       request -= 1
+       sys.stdout.flush()
+       time.sleep(1)
 
 # def randomdig(request):
 #     x = "treasure chest", "sack of gold"
@@ -99,7 +168,7 @@ def countdown(request):
 # text adventure input/output
 # game states. Starts at 0 and only allows certain inputs
 # game model, users have game saves (1:1, 1:Many)
-
+# 
 def game(request):
     if request.POST['input']== "yes":
         request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
@@ -126,10 +195,15 @@ def reset(request):
     request.session.flush()
     return redirect('/game')
 
+#remove after testing
+def clear(request):
+    if request.session['rations'] == 100:
+        request.session['rations'] -= 100
+    return redirect('/game')
+
 
 
 # text adventure
-# text adventure in terminal
 
 # answer = input ("Would you like to play? (yes/no) ")
 # if answer.lower().strip() == "yes":
