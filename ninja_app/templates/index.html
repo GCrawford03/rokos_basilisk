@@ -18,6 +18,7 @@
         <div class="container-fluid">
             <div class="title col-md-auto">
                 <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
+                <h2>Welcome, {{request.session.player_name}}</h2>
             </div>
             <a class="btn btn-outline-secondary" href="/logout" role="button">Exit</a>
         </div>
@@ -85,8 +86,6 @@
                 <input type="submit" value="Train">
             </form>
         </div>
-            <!--remove after testing-->
-            <a class = "btn btn-outline-secondary" href="/clear_rations" role='button'>Clear Rations</a>
     </div>
 
     <script>

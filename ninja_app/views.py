@@ -6,35 +6,21 @@ from django.contrib import messages
 
 
 def homepage(request):
-    return render(request, 'homepage.html' )
+    return render(request, 'landing.html' )
 
 def register(request):
     if request.method == 'POST':
-        errors = Player.objects.reg_val(request.POST)
+        errors = User.objects.validate(request.POST)
         print(errors)
         if len(errors):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect('/')
-        new_player = Player.objects.create(
-            username=request.POST['username'],
-            password=request.POST['password'])
-        request.session['player_name'] = new_player.username
-        request.session['player_id'] = new_player.id
-        request.session['current_place'] = 'woods' 
+        new_user = User.objects.create(
+            first_name=request.POST['first_name'])
+        request.session['player_name'] = new_user.first_name
+        request.session['player_id'] = new_user.id
         return redirect('/game')
-    return redirect('/')
-
-def login(request):
-    if request.method == 'POST':
-        logged_player = Player.objects.filter(username=request.POST['username'])
-        if len(logged_player):
-            logged_player = logged_player[0]
-            if (request.POST['password'], logged_player.password):
-                request.session['player_name'] = logged_player.username
-                request.session['player_id'] = logged_player.id
-                request.session['current_place'] = 'woods'
-                return redirect('/game')
     return redirect('/')
 
 def logout(request):
@@ -86,45 +72,11 @@ def war(request):
 # test 4
 
 def index(request):
-    if "rations" and "stamina" not in request.session:
-        request.session['prompt'] = "Would you like to go on an adventure? 'yes/no'"
+    if "rations" and "stamina" and "prompt" not in request.session:
         request.session['rations'] = 0
         request.session['stamina'] = 0
-    context={
-        'place': locations[request.session['current_place']]
-    }
-    return render(request, "index.html",context)
-
-def process(request):
-    print(request.POST)
-    if 'house' in request.POST:
-        request.session['gold'] += int(random.random() * 2 + 7)
-    if 'casino' in request.POST:
-        if int(random.random() * 10) > 5:
-            request.session['gold'] += int(random.random()*50)
-        else:
-            request.session['gold'] -= int(random.random()*50)
-    if 'farm' in request.POST:
-        request.session['gold'] += int(random.random() * 5 + 15)
-    if 'cave' in request.POST:
-        request.session['gold'] += int(random.random()* 10 + 30)
-    print(request.session['gold'])
-    return redirect('/game')
-
-
-# not finished below
-
-#Disregard this
-#def get_food(request, username:
-    #one_player = Player.objects.get(id=id)
-    #if request.method == 'POST':
-        #one_player.rations = request.POST['rations']
-        #one_player.save()
-        #return redirect('/game')
-
-# def counter():
-#     cps = 0
-#     speed = 0.01
+        request.session['prompt'] = "Would you like to go on an adventure? Type 'yes' or 'no' to begin..."
+    return render(request, "index.html")
 
 #     while True:
 #         """Prints the amount of Clicks per Second and resets the counter every second."""
@@ -154,60 +106,35 @@ def countdown(request):
 def game(request):
     if request.method == "POST":
         if request.POST['input']== "yes":
+            request.session['stamina'] -= 1
             request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
             if request.POST['input']== "no":
                 request.session['prompt']= "You died."
+                request.session['stamina'] -= 1
         if request.POST['input']== "west":
             request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
+            request.session['stamina'] -= 1
         if request.POST['input']== "east":
             request.session['prompt']= "You get lost. 'ok'"
+            request.session['stamina'] -= 1
         if request.POST['input']== "ok":
             request.session['prompt']= "You stumble upon something"
+            request.session['stamina'] -= 1
         if request.POST['input']== "attack":
             request.session['prompt']= "You died."
+            request.session['stamina'] -= 1
         if request.POST['input']== "run":
             request.session['prompt']= "You run away and find food ('continue')"
-            request.session['gold'] += int(random.random() * 50 + 200)
+            request.session['rations'] += int(random.random() * 50 + 200)
+            request.session['stamina'] -= 1
         if request.POST['input']== "continue":
             request.session['prompt']= "placeholder text."
+            request.session['stamina'] -= 1
 
 
     print(request.POST)
     return redirect('/game')
 
 def reset(request):
-    request.session.flush()
+    request.session['prompt'] = "Would you like to go on an adventure? Type 'yes' or 'no' to begin..."
     return redirect('/game')
-
-#remove after testing
-def clear(request):
-    if request.session['rations'] == 100:
-        request.session['rations'] -= 100
-    return redirect('/game')
-
-
-
-# text adventure
-
-# answer = input ("Would you like to play? (yes/no) ")
-# if answer.lower().strip() == "yes":
-#     answer = input("You reach a crossroads. Would you like to go 'left' or 'right'?").lower().strip()
-#     if answer == "left":
-#         answer = input("You encounter a monster. Would you like to 'run' or 'attack'?")
-        
-#         if answer == "attack":
-#             print("The monster deals 100 damage and kills you.")
-#         else:
-#             print("Good choice, you made it away safely.")
-
-#     elif answer == "right":
-#         print("You notice a small village in the distance. Do you 'go towards it' or 'continue on your path'?")
-
-#         if answer == "go towards it":
-#             print("A merchant wearing a cloak approaches you and asks if you want to see their wares. 'yes/no'")
-
-#             if answer == "yes":
-#                 print("You see a sword. Do you 'purchase' it or 'steal' it?")
-
-#         else:
-#             print("That's too bad. They might've had something you wanted for sale.")
