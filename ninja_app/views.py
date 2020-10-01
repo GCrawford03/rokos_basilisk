@@ -41,49 +41,18 @@ def logout(request):
     request.session.flush()
     return redirect('/')
 
-<<<<<<< HEAD
-def get_food(request):
-=======
 def get_rations(request):
->>>>>>> 3829d871a64afcc7d51f79889970e5128b0099de
     if request.method == 'POST':
         if request.session['rations'] < 100:
             request.session['rations'] += 5
     return render(request, 'ration.html')   
 
-<<<<<<< HEAD
-#def train(request):
-#    if request.method == 'POST':
-#        while (request.session['stamina'] < 30):
-=======
 def train(request):
     if request.method == 'POST':
         if request.session['rations'] >= 10:
             request.session['rations'] -= 10
             request.session['stamina'] += 1
     return render(request, 'ration.html')
->>>>>>> 3829d871a64afcc7d51f79889970e5128b0099de
-
-
-#def train(request, input, id){
- #   stamina_total = 0;
-    
-#    while (stamina_total < 30 and input = "train"){
-
- #       request.session['rations_total'] -= 10
- #       request.session['stamina_total'] += 1
-        
- #       if (stamina_total == 30) {
-
-  #          request.session['prompt'] = "Placeholder : Time to go to wor! Type in 'wartime' to go to travel to the battlegraounds."  
-  #      }
-  #      else{
-            
-  #          request.session['prompt'] = " Placeholder: Keep training to become a mega superpower! Type 'train' to gain  more stamina."
-  #      }
-  #  }
-  #  return redirect('/game/main')
-#}    
 
 def war(request):
     if request.session['stamina'] > 30:
@@ -183,23 +152,25 @@ def countdown(request):
 # game model, users have game saves (1:1, 1:Many)
 # 
 def game(request):
-    if request.POST['input']== "yes":
-        request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
-        if request.POST['input']== "no":
+    if request.method == "POST":
+        if request.POST['input']== "yes":
+            request.session['prompt']= "You reach a crossroads. Would you like to go 'west' or 'east'?"
+            if request.POST['input']== "no":
+                request.session['prompt']= "You died."
+        if request.POST['input']== "west":
+            request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
+        if request.POST['input']== "east":
+            request.session['prompt']= "You get lost. 'ok'"
+        if request.POST['input']== "ok":
+            request.session['prompt']= "You stumble upon something"
+        if request.POST['input']== "attack":
             request.session['prompt']= "You died."
-    if request.POST['input']== "west":
-        request.session['prompt']= "You encounter a monster. Would you like to 'run' or 'attack'?"
-    if request.POST['input']== "east":#
-        request.session['prompt']= "You get lost. 'ok'"
-    if request.POST['input']== "ok":
-        request.session['prompt']= "You stumble upon something"
-    if request.POST['input']== "attack":
-        request.session['prompt']= "You died."
-    if request.POST['input']== "run":
-        request.session['prompt']= "You run away and find food ('continue')"
-        request.session['gold'] += int(random.random() * 50 + 200)
-    if request.POST['input']== "continue":
-        request.session['prompt']= "placeholder text."
+        if request.POST['input']== "run":
+            request.session['prompt']= "You run away and find food ('continue')"
+            request.session['gold'] += int(random.random() * 50 + 200)
+        if request.POST['input']== "continue":
+            request.session['prompt']= "placeholder text."
+
 
     print(request.POST)
     return redirect('/game')

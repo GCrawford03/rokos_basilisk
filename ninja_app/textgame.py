@@ -28,8 +28,25 @@ locations['lake'].addLink('south','woods')
 currentLocation = locations['woods']
 # store in session
 
+# def game(request):
+# yes_no = ["yes", "no"]
+# directions = ["west", "east", "north", "south"]
 
+# name = input("What is your name?\n")
+# print("Greetings, " + name + ". Let us go on a quest!")
+# print("You find yourself on the edge of a dark forest.")
+# print("Can you find your way through?\n")
 
+# response = ""
+# while response not in yes_no:
+#     response = input("Would you like to step into the forest?\nyes/no\n")
+#     if response == "yes":
+#         print("You head into the forest. You hear crows cawwing in the distance.\n")
+#     elif response == "no":
+#         print("You are not ready for this quest. Goodbye, " + name + ".")
+#         quit()
+#     else: 
+#         print("I didn't understand that.\n")
 
 
 # while True:
