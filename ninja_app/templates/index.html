@@ -18,6 +18,7 @@
         <div class="container-fluid">
             <div class="title col-md-auto">
                 <h1>Roko's Basilisk: Idle/Exploration Text Adventure</h1>
+                <h2>Welcome, {{request.session.player_name}}</h2>
             </div>
             <a class="btn btn-outline-secondary" href="/logout" role="button">Exit</a>
         </div>
@@ -85,78 +86,18 @@
                 <input type="submit" value="Train">
             </form>
         </div>
-            <!--remove after testing-->
-            <a class = "btn btn-outline-secondary" href="/clear_rations" role='button'>Clear Rations</a>
-    </div>
-
-    <script>
-    var point = 1;
-    var showClickDmg = document.getElementById('output1');
-    showClickDmg.innerHTML = point;
+    </nav>
     
-    var incrementDamage = 0;
-    var incDmg = document.getElementById('output2');
-    incDmg.innerHTML = incrementDamage;
-    
-    var currentPoint = 0;
-    var dpsOutput = document.getElementById('dps');
-    dpsOutput.innerHTML = currentPoint;
-    
-    function increaseDPS()
-    {
-        currentPoint = currentPoint + point + incrementDamage;
-        dpsOutput.innerHTML = currentPoint;
-    }
-    
-    function powerClick()
-    {
-        if(currentPoint >= 20)
-        {
-            currentPoint = currentPoint - 20;
-            point = point + 1;
-            showClickDmg.innerHTML = point;
-            document.getElementById('system').innerHTML = "";
-            document.getElementById('system').innerHTML = "<div class='alert alert-success'>Bought Power Click! Now it's " + point + "!</div>";
-        }
-        else
-        {
-            var remainingPoints = 20 - currentPoint;
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>Insufficient points! You need " + remainingPoints + " more!</div>";
-        }
-    }
-    
-    var interval1;
-    
-    function minorInc()
-    {
-        currentPoint = currentPoint + incrementDamage;
-        dpsOutput.innerHTML = currentPoint;
-    }
-    
-    function passiveClick()
-    {
-        if (currentPoint >= 100)
-        {
-            incrementDamage++;
-            incDmg.innerHTML = incrementDamage;
-            currentPoint = currentPoint - 100;
-            interval1 = setInterval('minorInc()', 1000);
-            document.getElementById('system').innerHTML = '';
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>You bought Click Staff! Increment Damage is now " + incrementDamage + "</div>";
-        }
-        else
-        {
-            var remainingPoints = 100 - currentPoint;
-            document.getElementById('system').innerHTML = "<div class='alert alert-warning'>Insufficient points for Click Staff! You need " + remainingPoints + " more!</div>"; //Standard Error
-        }
-    }
-    
-    function stopper()
-    {
-        clearInterval(interval1);
-    }
-    </script>
+    <!-- game box -->
+    <div1 class="box1 my-2"></div1>
+    <div2 class="box1 my-2"></div2>
+<div>
+    <ul class="inventory list-inline">
+        <li class="list-inline-item"> Resources: {{ resource }}</li>
+        <li class="list-inline-item"> Energy: {{ energy }}</li>
+  </ul>
 </div>
+<<<<<<< HEAD
     <div>
         <img class="map" src="https://i.imgur.com/msJV1Kd.png" alt="Default Map" width="500" height="600">
     </div>
@@ -199,4 +140,11 @@
 
 </script>
 
+=======
+  <div class="">
+    <textarea class="log" name="logger" rows="4" cols="50"></textarea>
+    <img src="map.jpeg" class="map rounded float-right" alt="map.jpeg">
+  </div>
+</body>
+>>>>>>> e8a2cf380665209f45eed2ba0805a81c8c092964
 </html>
