@@ -15,5 +15,6 @@ urlpatterns = [
     path('reset', views.reset),
     #path('countdown', views.countdown),
     path('textgame', views.game),
-    path('train', views.train)
+    path('train', views.train),
+    path('war', views.war)
 ]

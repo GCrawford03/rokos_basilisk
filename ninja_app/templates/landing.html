@@ -4,14 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Ninja Gold</title>
-<<<<<<< HEAD
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'style/index.css' %}">
-=======
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="index.css">
->>>>>>> e8a2cf380665209f45eed2ba0805a81c8c092964
 </head>
 <body class="container-fluid"> 
 
@@ -26,18 +21,11 @@
         </div>
     </nav>
 
-<<<<<<< HEAD
     <form action="/register" class="user" method="POST">
         {% csrf_token %}
         <div class="form-group container">
           <label for="first_name">Name: </label>
           <input type="" class="form-control" id="user" name="first_name">
-=======
-    <form class="user">
-        <div class="form-group container">
-          <label for="user">Name: </label>
-          <input type="" class="form-control" id="user" placeholder="Players Name">
->>>>>>> e8a2cf380665209f45eed2ba0805a81c8c092964
         </div>
         <button type="submit" class="btn btn-secondary container">Play Game</button>
     </form>

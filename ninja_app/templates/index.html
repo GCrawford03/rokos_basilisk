@@ -86,6 +86,22 @@
                 <input type="submit" value="Train">
             </form>
         </div>
+        <div class="form" id='war'>
+            <h3>War</h3>
+            <p>Spend 30 stamina to go to war</p>
+            <form action="/war" method='POST'>
+            {% csrf_token %}
+                <input type="hidden" name="stamina">
+                <input type="submit" value="war">
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="{{ message.tags }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </form>
+        </div>
     </nav>
     
     <!-- game box -->
@@ -97,12 +113,10 @@
         <li class="list-inline-item"> Energy: {{ energy }}</li>
   </ul>
 </div>
-<<<<<<< HEAD
     <div>
         <img class="map" src="https://i.imgur.com/msJV1Kd.png" alt="Default Map" width="500" height="600">
     </div>
 </body>
-
 
 <script type='text/javascript'>
         $(document).on('submit', '#count', function (e) {
@@ -140,11 +154,4 @@
 
 </script>
 
-=======
-  <div class="">
-    <textarea class="log" name="logger" rows="4" cols="50"></textarea>
-    <img src="map.jpeg" class="map rounded float-right" alt="map.jpeg">
-  </div>
-</body>
->>>>>>> e8a2cf380665209f45eed2ba0805a81c8c092964
 </html>
